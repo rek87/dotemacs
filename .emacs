@@ -1,50 +1,84 @@
+(defvar pkg-refreshed nil)
+(defvar package-list `(
+		       color-theme-sanityinc-tomorrow
+		       flycheck
+		       helm
+		       magit
+		       which-key
+		       whitespace
+		       ))
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
-;; Mandatory magit
-(require 'magit)
-(global-set-key (kbd "C-x g") 'magit-status)
+(with-demoted-errors
+    (when (file-exists-p package-user-dir)
+      (dolist (package package-list)
+	(unless (package-installed-p package)
+	  (unless pkg-refreshed
+	    (package-refresh-contents)
+	    (setq pkg-refreshed t))
+	  (package-install package)))))
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 
-;; Use meta-arrow to move among windows
-(global-set-key (kbd "M-<left>") 'windmove-left)
-(global-set-key (kbd "M-<right>") 'windmove-right)
-(global-set-key (kbd "M-<up>") 'windmove-up)
-(global-set-key (kbd "M-<down>") 'windmove-down)
+;; Windmove is built into Emacs. It lets you move point from window to window using
+;; Meta and the arrow keys. This is easier to type than ‘C-x o’ when there are multiple
+;; windows open.
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings 'meta))
 
-(show-paren-mode 1) 
+(show-paren-mode 1)  ; Highlight parentheses macth
+(column-number-mode)  ; Show column number
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+
+(require 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;; Display available keybindings in popup
+(require 'which-key)
+(which-key-mode 1)
+
+;; Helm config
+(require 'helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-mini)
+
+(require 'projectile)
+(projectile-global-mode 1)
+
+;; Register bash completion for the shell buffer and shell command line.
+(require 'bash-completion)
+(bash-completion-setup)
+
+(require 'whitespace)
+;; Highlight exceeding line length (80 chars) and trailing spaces
+(setq whitespace-style '(face lines-tail trailing))
+(global-whitespace-mode t)
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; Setting t be cheked from Andrea
 (setq line-move-visual 1)
-(require 'helm)
+
 
 ;; EVS mode stub
 (define-derived-mode evs-mode json-mode "EVS Mode"
   "EVS Mode"
   (erase-buffer)
   (shell-command
-   (concat "/work/univent/usr/bin/u3cat -i" (buffer-file-name))     
+   (concat "/work/univent/usr/bin/u3cat -i" (buffer-file-name))
    (current-buffer))
-  (not-modified)
+  (set-buffer-modified-p)
   )
 
-
-
-;; Windmove is built into Emacs. It lets you move point from window to window using
-;; Shift and the arrow keys. This is easier to type than ‘C-x o’ when there are multiple
-;; windows open.
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -53,9 +87,16 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (misterioso)))
+ '(c-basic-offset 2)
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
+ '(custom-safe-themes
+   (quote
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" default)))
  '(debug-on-error t)
- '(package-selected-packages (quote (json-mode company helm magit))))
+ '(package-selected-packages
+   (quote
+    (which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+ '(projectile-mode t nil (projectile)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
