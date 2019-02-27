@@ -34,9 +34,15 @@
 
 (show-paren-mode 1)  ; Highlight parentheses macth
 (column-number-mode)  ; Show column number
+(menu-bar-mode -1) ; Disable menu bar
+(tool-bar-mode -1) ; Do not display GUI Toolbar
+(scroll-bar-mode -1) ; Disable scroll bars
+(setq-default indent-tabs-mode nil) ; Use spaces for tab
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(global-auto-revert-mode t) ; Automatically reload files
+(setq compilation-scroll-output 'first-error)
 
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -51,7 +57,8 @@
 (global-set-key (kbd "C-x b") 'helm-mini)
 
 (require 'projectile)
-(projectile-global-mode 1)
+(projectile-mode 1)
+(global-set-key (kbd "<f4>") 'projectile-compile-project)
 
 ;; Register bash completion for the shell buffer and shell command line.
 (require 'bash-completion)
@@ -59,7 +66,7 @@
 
 (require 'whitespace)
 ;; Highlight exceeding line length (80 chars) and trailing spaces
-(setq whitespace-style '(face lines-tail trailing))
+(setq whitespace-style '(face lines-tail trailing tab-mark))
 (global-whitespace-mode t)
 
 (require 'flycheck)
@@ -67,6 +74,10 @@
 
 ;; Setting t be cheked from Andrea
 (setq line-move-visual 1)
+;; Disable startup message
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-message t)
+
 
 
 ;; EVS mode stub
@@ -76,7 +87,7 @@
   (shell-command
    (concat "/work/univent/usr/bin/u3cat -i" (buffer-file-name))
    (current-buffer))
-  (set-buffer-modified-p)
+  (set-buffer-modified-p nil)
   )
 
 
@@ -96,10 +107,15 @@
  '(package-selected-packages
    (quote
     (which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
- '(projectile-mode t nil (projectile)))
+ '(projectile-mode t nil (projectile))
+ '(safe-local-variable-values
+   (quote
+    ((projectile-project-compilation-cmd . "scons -C /work/univent/build -Y.. -j8 install")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
