@@ -1,12 +1,12 @@
 (defvar pkg-refreshed nil)
 (defvar package-list `(
-		       color-theme-sanityinc-tomorrow
-		       flycheck
-		       helm
-		       magit
-		       which-key
-		       whitespace
-		       ))
+                       color-theme-sanityinc-tomorrow
+                       flycheck
+                       helm
+                       magit
+                       which-key
+                       whitespace
+                       ))
 
 (require 'package)
 (setq package-archives
@@ -17,11 +17,11 @@
 (with-demoted-errors
     (when (file-exists-p package-user-dir)
       (dolist (package package-list)
-	(unless (package-installed-p package)
-	  (unless pkg-refreshed
-	    (package-refresh-contents)
-	    (setq pkg-refreshed t))
-	  (package-install package)))))
+        (unless (package-installed-p package)
+          (unless pkg-refreshed
+            (package-refresh-contents)
+            (setq pkg-refreshed t))
+          (package-install package)))))
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
@@ -78,17 +78,106 @@
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
 
+;; Ibuffer conf
+(defalias 'list-buffers 'ibuffer)
+(add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode 1)))
 
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+               ("exwm" (mode . exwm-mode))
+               ("lisp" (or
+                        (mode . lisp-mode)
+                        (mode . slime-repl-mode)
+                        (mode . slime-inspector-mode)
+                        (name . "^\\*slime-\\(description\\|compilation\\|xref\\)\\*$")
+                        (name . "^\\*sldb .*\\*$")
+                        (filename . "^/usr/local/doc/HyperSpec/")))
+               ("python" (or
+                          (mode . python-mode)
+                          (mode . inferior-python-mode)
+                          (name . "^\\*Python \\(Check\\|Doc\\)\\*$")))
+               ("shell" (or
+                         (mode . shell-mode)
+                         (mode . term-mode)
+                         (mode . sh-mode)
+                         (mode . conf-unix-mode)
+                         (mode . eshell-mode)
+                         (name . "^\\*Shell Command Output\\*$")))
+               ("C" (or
+                     (derived-mode . c-mode)
+                     (mode . c++-mode)))
+               ("asm" (mode . asm-mode))
+               ("yaml" (mode . yaml-mode))
+               ("dired" (or
+                         (mode . dired-mode)
+                         (mode . wdired-mode)
+                         (mode . archive-mode)
+                         (mode . proced-mode)))
+               ("man" (or
+                       (mode . Man-mode)
+                       (mode . woman-mode)))
+               ("data" (or
+                        (filename . ".*\\.\\([ct]sv\\|dat\\)$")))
+               ("LaTeX" (or
+                         (mode . latex-mode)
+                         (mode . tex-shell)
+                         (mode . TeX-output-mode)
+                         (name . "^\\*\\(Latex Preview Pane \\(Welcome\\|Errors\\)\\|pdflatex-buffer\\)\\*$")))
+               ("text" (mode . text-mode))
+               ("pdf" (or
+                       (mode . doc-view-mode)
+                       (mode . pdf-view-mode)))
+               ("web" (or
+                       (mode . w3m-mode)
+                       (mode . eww-mode)))
+               ("org" (or (derived-mode . org-mode)
+                          (mode . org-agenda-mode)))
+               ("planner" (or
+                           (name . "^\\*Calendar\\*$")
+                           (name . "^diary$")
+                           (mode . muse-mode)))
+               ("org" (or (mode . org-mode)
+                          (filename . "OrgMode")))
+               ("git" (or (derived-mode . magit-mode)
+                          (filename . "\\.git\\(ignore\\|attributes\\)$")))
+               ("diff" (or
+                        (mode . diff-mode)
+                        (mode . ediff-mode)
+                        (name . "^\\*[Ee]?[Dd]iff.*\\*$")))
+               ("mail" (or
+                        (mode . message-mode)
+                        (mode . bbdb-mode)
+                        (mode . mail-mode)
+                        (mode . gnus-group-mode)
+                        (mode . gnus-summary-mode)
+                        (mode . gnus-article-mode)
+                        (mode . mu4e-compose-mode)
+                        (name . "*mu4e*")
+                        (name . "^\\.bbdb$")
+                        (name . "^\\.newsrc-dribble")))
+               ("emacs" (or
+                         (mode . emacs-lisp-mode)
+                         (mode . lisp-interaction-mode)
+                         (mode . help-mode)
+                         (mode . Info-mode)
+                         (mode . package-menu-mode)
+                         (mode . finder-mode)
+                         (mode . Custom-mode)
+                         (mode . apropos-mode)
+                         (mode . ioccur-mode)
+                         (mode . occur-mode)
+                         (mode . reb-mode)
+                         (mode . calc-mode)
+                         (mode . calc-trail-mode)
+                         (mode . messages-buffer-mode)))
+               ("misc" (name . "^\\*[0-9A-Za-z_]+\\*$"))))))
 
-;; EVS mode stub
-(define-derived-mode evs-mode json-mode "EVS Mode"
-  "EVS Mode"
-  (erase-buffer)
-  (shell-command
-   (concat "/work/univent/usr/bin/u3cat -i" (buffer-file-name))
-   (current-buffer))
-  (set-buffer-modified-p nil)
-  )
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+
+(setq ibuffer-show-empty-filter-groups nil)
+(setq ibuffer-jump-offer-only-visible-buffers t)
 
 
 (custom-set-variables
