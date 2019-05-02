@@ -188,6 +188,11 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(c-basic-offset 2)
+ '(c-default-style
+   (quote
+    ((java-mode . "java")
+     (awk-mode . "awk")
+     (other . "gnu"))))
  '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
  '(custom-safe-themes
    (quote
