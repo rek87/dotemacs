@@ -6,6 +6,8 @@
                        magit
                        which-key
                        whitespace
+                       projectile
+                       bash-completion
                        ))
 
 (require 'package)
