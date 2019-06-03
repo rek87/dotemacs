@@ -3,6 +3,7 @@
                        color-theme-sanityinc-tomorrow
                        flycheck
                        helm
+                       helm-projectile
                        magit
                        which-key
                        whitespace
