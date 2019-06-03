@@ -179,6 +179,90 @@
 (setq ibuffer-show-empty-filter-groups nil)
 (setq ibuffer-jump-offer-only-visible-buffers t)
 
+(c-add-style "univent-c-style"
+            '("gnu"
+              (c-basic-offset . 4)     ; Guessed value
+              (c-offsets-alist
+               (access-label . -2)      ; Guessed value
+               (arglist-intro . 4)     ; Guessed value
+               (class-close . 0)       ; Guessed value
+               (cpp-define-intro . 0)  ; Guessed value
+               (defun-block-intro . *) ; Guessed value
+               (defun-close . 0)       ; Guessed value
+               (defun-open . 0)        ; Guessed value
+               (func-decl-cont . *)    ; Guessed value
+               (inclass . +)           ; Guessed value
+               (inline-close . 0)      ; Guessed value
+               (innamespace . 0)       ; Guessed value
+               (member-init-intro . 2) ; Guessed value
+               (namespace-close . 0)   ; Guessed value
+               (statement . 0)         ; Guessed value
+               (statement-cont . 2)    ; Guessed value
+               (topmost-intro . 0)     ; Guessed value
+               (topmost-intro-cont . 0) ; Guessed value
+               (annotation-top-cont . 0)
+               (annotation-var-cont . +)
+               (arglist-close . c-lineup-close-paren)
+               (arglist-cont c-lineup-gcc-asm-reg 0)
+               (arglist-cont-nonempty . 4)
+               (block-close . 0)
+               (block-open . 0)
+               (brace-entry-open . 0)
+               (brace-list-close . 0)
+               (brace-list-entry . 0)
+               (brace-list-intro . +)
+               (brace-list-open . +)
+               (c . c-lineup-C-comments)
+               (case-label . 0)
+               (catch-clause . 0)
+               (class-open . 0)
+               (comment-intro . c-lineup-comment)
+               (composition-close . 0)
+               (composition-open . 0)
+               (cpp-macro . -1000)
+               (cpp-macro-cont . +)
+               (do-while-closure . 0)
+               (else-clause . 0)
+               (extern-lang-close . 0)
+               (extern-lang-open . 0)
+               (friend . 0)
+               (incomposition . +)
+               (inexpr-class . +)
+               (inexpr-statement . +)
+               (inextern-lang . +)
+               (inher-cont . 2)
+               (inher-intro . 2)
+               (inlambda . c-lineup-inexpr-block)
+               (inline-open . 0)
+               (inmodule . +)
+               (knr-argdecl . 0)
+               (knr-argdecl-intro . 5)
+               (label . 0)
+               (lambda-intro-cont . +)
+               (member-init-cont . [6])
+               (module-close . 0)
+               (module-open . 0)
+               (namespace-open . 0)
+               (objc-method-args-cont . c-lineup-ObjC-method-args)
+               (objc-method-call-cont c-lineup-ObjC-method-call-colons c-lineup-ObjC-method-call +)
+               (objc-method-intro .
+                                  [0])
+               (statement-block-intro . 2)
+               (statement-case-intro . +)
+               (statement-case-open . +)
+               (stream-op . c-lineup-streamop)
+               (string . -1000)
+               (substatement . 2)
+               (substatement-label . 0)
+               (substatement-open . +)
+               (template-args-cont c-lineup-template-args +))))
+
+(defun univent-c-mode-hook ()
+   (c-set-style "univent-c-style"))
+
+(add-hook 'c-mode-hook 'univent-c-mode-hook)
+(add-hook 'c++-mode-hook 'univent-c-mode-hook)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
