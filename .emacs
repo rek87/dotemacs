@@ -9,6 +9,8 @@
                        whitespace
                        projectile
                        bash-completion
+                       json-mode
+                       quelpa
                        ))
 
 (require 'package)
@@ -25,6 +27,13 @@
             (package-refresh-contents)
             (setq pkg-refreshed t))
           (package-install package)))))
+
+(quelpa '(smime
+         :fetcher git
+         :url "ssh://fedrec01@eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/midas.git"
+         :files ("etc/SMIME/smime.el"))
+    :upgrade t)
+(require 'smime)
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
@@ -312,11 +321,16 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
-    ((projectile-project-compilation-cmd . "scons -C /work/univent/build -Y.. -j8 install")))))
+    ((projectile-project-compilation-cmd . "scons -C /work/univent/build -Y.. -j8 install"))))
+ '(smime-module
+   "/arm/projectscratch/pd/pj02794_matterhorn/fedrec01/mth/misc/modules/midas")
+ '(smime-render-dirs
+   (quote
+    (/arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/mdsgen/tbench/ /arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/mdsgen/matterhorn/simulation/popeye/tbench/ /arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/m4ified/matterhorn/logical/ /arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/univent_mth/mth_uarch/))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
