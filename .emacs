@@ -267,6 +267,31 @@
 (add-hook 'c++-mode-hook 'univent-c-mode-hook)
 
 
+;; Set Univent in emacs shell env
+(defun univent-env (path)
+  "Set Univent environment"
+  (interactive "DInstall Path: ")
+  (setenv "PATH"
+          (concat
+           path "/bin" ":"
+           (getenv "PATH")))
+  (setenv "LD_LIBRARY_PATH"
+          (concat
+           path "/lib" ":"
+           (getenv "LD_LIBRARY_PATH")))
+  (setenv "UNIVENT_PLUGIN_PATH"
+          (concat
+           path "/share/univent/plugins" ":"
+           (getenv "UNIVENT_PLUGINPATH")))
+  (setenv "PYTHONPATH"
+          (concat
+           path "/lib/python" ":"
+           (getenv "PYTHONPATH")))
+  (setenv "SBPATH"
+          (concat
+           path "/share/sb" ":"
+           (getenv "PATH"))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
