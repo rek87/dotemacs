@@ -10,6 +10,7 @@
                        projectile
                        bash-completion
                        json-mode
+                       quelpa
                        ))
 
 (require 'package)
