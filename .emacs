@@ -4,6 +4,7 @@
                        flycheck
                        helm
                        helm-projectile
+                       helm-swoop
                        magit
                        which-key
                        whitespace
@@ -11,6 +12,7 @@
                        bash-completion
                        json-mode
                        quelpa
+                       beacon
                        ))
 
 (require 'package)
@@ -28,12 +30,15 @@
             (setq pkg-refreshed t))
           (package-install package)))))
 
-(quelpa '(smime
-         :fetcher git
-         :url "ssh://fedrec01@eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/midas.git"
-         :files ("etc/SMIME/smime.el"))
-    :upgrade t)
-(require 'smime)
+;(quelpa '(smime
+;         :fetcher git
+;         :url "ssh://fedrec01@eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/midas.git"
+;         :files ("etc/SMIME/smime.el"))
+;    :upgrade t)
+;(require 'smime)
+
+(add-to-list 'load-path "~/my_emacs/tarmac-mode/")
+(require 'tarmac-mode)
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
@@ -84,8 +89,15 @@
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; Setting t be cheked from Andrea
-(setq line-move-visual 1)
+(require 'helm-swoop)
+(global-set-key (kbd "M-i") 'helm-swoop)
+(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+(global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+(global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+
+(require 'beacon)
+(beacon-mode 1)
+
 ;; Disable startup message
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-message t)
@@ -321,7 +333,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
