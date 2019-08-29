@@ -35,6 +35,9 @@
     :upgrade t)
 (require 'smime)
 
+(add-to-list 'load-path "~/my_emacs/tarmac-mode")
+(require 'tarmac-mode)
+
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
 
@@ -299,7 +302,9 @@
   (setenv "SBPATH"
           (concat
            path "/share/sb" ":"
-           (getenv "PATH"))))
+           (getenv "PATH")))
+  (setenv "ARMLMD_LICENSE_FILE"
+          "/arm/tools/arm/license/validation/license.dat"))
 
 
 ;; Set unicode mode when run in terminal
@@ -327,7 +332,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (smime quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
