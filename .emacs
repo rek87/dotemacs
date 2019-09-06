@@ -37,8 +37,9 @@
 ;    :upgrade t)
 ;(require 'smime)
 
-(add-to-list 'load-path "~/my_emacs/tarmac-mode/")
-(require 'tarmac-mode)
+(when (file-directory-p "~/my_emacs/tarmac-mode/")
+  (add-to-list 'load-path "~/my_emacs/tarmac-mode/")
+  (require 'tarmac-mode))
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
