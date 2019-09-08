@@ -341,7 +341,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
@@ -359,3 +359,4 @@
  )
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
