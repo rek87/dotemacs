@@ -37,8 +37,16 @@
 ;    :upgrade t)
 ;(require 'smime)
 
-(add-to-list 'load-path "~/my_emacs/tarmac-mode/")
-(require 'tarmac-mode)
+(when (file-directory-p "~/my_emacs/tarmac-mode/")
+  (add-to-list 'load-path "~/my_emacs/tarmac-mode/")
+  (require 'tarmac-mode))
+
+;; https://github.com/daimrod/highlight-sexp.git
+(when (file-directory-p "~/my_emacs/highlight-sexp/")
+  (load "~/my_emacs/highlight-sexp/highlight-sexp.el")
+  (require 'highlight-sexp)
+  (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
+  (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode))
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
@@ -361,3 +369,4 @@
  )
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
