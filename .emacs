@@ -320,6 +320,8 @@
 (if (not (display-graphic-p))
     (set-terminal-coding-system 'utf-8))
 
+;; Set python-mode for SCons files
+(add-to-list 'auto-mode-alist '("SCons" . python-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -341,7 +343,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
