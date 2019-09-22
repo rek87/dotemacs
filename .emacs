@@ -13,6 +13,8 @@
                        json-mode
                        quelpa
                        beacon
+                       paredit
+                       company
                        ))
 
 (require 'package)
@@ -105,6 +107,14 @@
 
 (require 'beacon)
 (beacon-mode 1)
+
+(require 'paredit)
+(add-hook 'lisp-mode-hook 'paredit-mode)
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+
+(require 'company)
+(add-hook 'lisp-mode-hook 'company-mode)
+(add-hook 'emacs-lisp-mode-hook 'company-mode)
 
 ;; Disable startup message
 (setq inhibit-splash-screen t)
