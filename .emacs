@@ -39,6 +39,14 @@
 ;    :upgrade t)
 ;(require 'smime)
 
+
+;; Disable package signature check!!
+;; Up to 26.2 is bugged https://debbugs.gnu.org/cgi/bugreport.cgi?bug=33825
+(unless (or (> emacs-major-version 26)
+            (and (= emacs-major-version 26)
+                 (> emacs-minor-version 2)))
+  (setq package-check-signature nil))
+
 (when (file-directory-p "~/my_emacs/tarmac-mode/")
   (add-to-list 'load-path "~/my_emacs/tarmac-mode/")
   (require 'tarmac-mode))
@@ -361,7 +369,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (undo-tree vlf paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
