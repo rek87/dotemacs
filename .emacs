@@ -1,5 +1,5 @@
 (defvar pkg-refreshed nil)
-(defvar package-list `(
+(defconst package-list `(
                        color-theme-sanityinc-tomorrow
                        flycheck
                        helm
@@ -50,6 +50,10 @@
 (when (file-directory-p "~/my_emacs/tarmac-mode/")
   (add-to-list 'load-path "~/my_emacs/tarmac-mode/")
   (require 'tarmac-mode))
+
+(when (file-directory-p "~/my_emacs/module-mode/")
+  (add-to-list 'load-path "~/my_emacs/module-mode/")
+  (require 'module-mode))
 
 ;; https://github.com/daimrod/highlight-sexp.git
 (when (file-directory-p "~/my_emacs/highlight-sexp/")
@@ -369,7 +373,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (undo-tree vlf paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
