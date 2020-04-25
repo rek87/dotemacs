@@ -15,6 +15,7 @@
                        beacon
                        paredit
                        company
+                       elpy
                        ))
 
 (require 'package)
@@ -135,6 +136,13 @@
 ;; Ibuffer conf
 (defalias 'list-buffers 'ibuffer)
 (add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode 1)))
+
+;; Ask y/n instead of yes/no
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Python config
+(setq python-shell-interpreter "python3")
+(elpy-enable)
 
 (setq ibuffer-saved-filter-groups
       (quote (("default"
@@ -353,6 +361,11 @@
 ;; Set python-mode for SCons files
 (add-to-list 'auto-mode-alist '("SCons" . python-mode))
 
+(when (equal (system-name) "e121080-lin")
+  ;; Set LD_LIBRARY_PATH for local GCC
+  (setenv "LD_LIBRARY_PATH"
+          (concat "/usr/local/lib64/:" (getenv "LD_LIBRARY_PATH"))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -373,7 +386,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (elpy undo-tree vlf paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
