@@ -143,6 +143,10 @@
 ;; Python config
 (setq python-shell-interpreter "python3")
 (elpy-enable)
+(define-key elpy-mode-map (kbd "<M-left>") nil)
+(define-key elpy-mode-map (kbd "<M-right>") nil)
+(define-key elpy-mode-map (kbd "<S-left>") 'elpy-nav-indent-shift-left)
+(define-key elpy-mode-map (kbd "<S-right>") 'elpy-nav-indent-shift-right)
 
 (setq ibuffer-saved-filter-groups
       (quote (("default"
@@ -386,7 +390,7 @@
  '(debug-on-error t)
  '(package-selected-packages
    (quote
-    (elpy undo-tree vlf paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
+    (elpy paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
  '(projectile-mode t nil (projectile))
  '(safe-local-variable-values
    (quote
