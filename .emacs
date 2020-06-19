@@ -107,6 +107,7 @@
 (require 'whitespace)
 ;; Highlight exceeding line length (80 chars) and trailing spaces
 (setq whitespace-style '(face lines-tail trailing tab-mark))
+(setq whitespace-global-modes '(not dired-mode tar-mode))
 (global-whitespace-mode t)
 
 (require 'flycheck)
