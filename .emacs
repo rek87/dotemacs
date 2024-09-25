@@ -16,6 +16,7 @@
                        paredit
                        company
                        elpy
+                       undo-tree
                        ))
 
 (require 'package)
