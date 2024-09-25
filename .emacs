@@ -26,13 +26,12 @@
 (package-initialize)
 
 (with-demoted-errors
-    (when (file-exists-p package-user-dir)
-      (dolist (package package-list)
-        (unless (package-installed-p package)
-          (unless pkg-refreshed
-            (package-refresh-contents)
-            (setq pkg-refreshed t))
-          (package-install package)))))
+    (dolist (package package-list)
+      (unless (package-installed-p package)
+        (unless pkg-refreshed
+          (package-refresh-contents)
+          (setq pkg-refreshed t))
+        (package-install package))))
 
 ;(quelpa '(smime
 ;         :fetcher git
