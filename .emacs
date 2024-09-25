@@ -261,12 +261,15 @@
 (c-add-style "univent"
   '("stroustrup"
     (c-basic-offset . 2)
+    (c-backslash-column . 79)
+    (c-backslash-max-column . 79)
     (c-offsets-alist . ((innamespace . 0)
                         (access-label . -)
                         (case-label . +)
                         (arglist-intro . ++)
                         (statement-cont . ++)
                         (inline-open . 0)
+                        (member-init-intro . ++)
                         ))))
 
 (add-hook 'c++-mode-hook (lambda ()
@@ -281,6 +284,11 @@
     (cl-prettyprint cfg)
     )
   )
+
+(defun c-offset (&optional n)
+  "Set the C basic offset (default 4)."
+  (interactive)
+  (setq c-basic-offset (if n n 4)))
 
 ;; Set Univent in emacs shell env
 (defun univent-env (path)
@@ -322,48 +330,58 @@
   (setenv "LD_LIBRARY_PATH"
           (concat "/usr/local/lib64/:" (getenv "LD_LIBRARY_PATH"))))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(c-basic-offset 2)
- '(c-default-style
-   (quote
-    ((java-mode . "java")
-     (awk-mode . "awk")
-     (other . "gnu"))))
- '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
- '(custom-safe-themes
-   (quote
-    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" default)))
- '(debug-on-error t)
- '(fill-column 80)
- '(git-commit-fill-column 70)
- '(package-selected-packages
-   (quote
-    (bison-mode pdf-tools undo-tree vlf csv-mode elpy paredit beacon smime sly quelpa which-key flycheck helm-projectile bash-completion projectile color-theme-sanityinc-tomorrow json-mode company helm magit)))
- '(projectile-mode t nil (projectile))
- '(safe-local-variable-values
-   (quote
-    ((projectile-project-compilation-cmd . "PATH=/work/firmware/hafnium/prebuilts/linux-x64/clang/bin/:$PATH C_INCLUDE_PATH=/work/firmware/hafnium/prebuilts/linux-x64/clang/lib64/clang/12.0.5/include/ make PROJECT=reference -j8")
-     (projectile-project-compilation-cmd . "scons -C /work/univent/build -Y.. -j8 install PREFIX=../usr")
-     (projectile-project-compilation-cmd . "scons -C /work/univent/build -Y.. -j8 install"))))
- '(sentence-end-double-space nil)
- '(smime-module
-   "/arm/projectscratch/pd/pj02794_matterhorn/fedrec01/mth/misc/modules/midas")
- '(smime-render-dirs
-   (quote
-    (/arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/mdsgen/tbench/ /arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/mdsgen/matterhorn/simulation/popeye/tbench/ /arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/m4ified/matterhorn/logical/ /arm/projectscratch/pd/pj02794_matterhorn/fedrec01/popeye/popeye/Matterhorn_popeye_compile_link/dfs_6eb71f24e922bc5bd8f42f20c8ea90504f39a127/univent_mth/mth_uarch/)))
- '(undo-tree-auto-save-history nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'erase-buffer 'disabled nil)
+(defun shell-name-default-directory ()
+  "Open a shell from current buffer's `default-directory`."
+  (concat "*shell@" default-directory "*"))
+(defun shell-at-default-directory ()
+  "Open a shell from current buffer's `default-directory`."
+  (interactive)
+  (shell (shell-name-default-directory)))
+(defun rename-buffer-shell (arg)
+  ""
+  (rename-buffer (shell-name-default-directory))
+  (message "CIAO"))
+(global-set-key (kbd "<f2>") 'shell-at-default-directory)
+;;(advice-add #'shell-process-cd :after #'rename-buffer-shell)
+;;(advice-add #'shell-rocess-cd :before #'bar)
+
+;; TODO: define
+;; Color for sexp in light theme: #cabbca
+(defun light ()
+  "Set light theme"
+  (interactive)
+  (ef-themes-select 'ef-day))
+
+(defun dark ()
+  "Set dark theme"
+  (interactive)
+  (color-theme-sanityinc-tomorrow-eighties))
+
+(defun insert-change-id ()
+  (interactive)
+  (insert "Change-Id: I")
+  ;; The hash is computed by Gerrit hook like so:
+  ;; (whoami ; hostname ; date; cat $1 ; echo $RANDOM) | git hash-object --stdin
+  ;; `git hash-object' computes a SHA1 sum of the input.
+  ;; Compute a checksum of the same random data.
+  (insert (secure-hash 'sha1 (format "%s%s%s%s"
+                                     (user-full-name)
+                                     (system-name)
+                                     (current-time)
+                                     (random)))))
+
+(defun jira-issue-md-at-point ()
+  (interactive)
+  (let ((st (make-syntax-table (syntax-table))))
+    (modify-syntax-entry ?- "w")
+    (with-syntax-table st
+      (let ((jira-issue (word-at-point)))
+        (backward-word)
+        (insert "[")
+        (forward-word)
+        (insert "|https://jira.arm.com/browse/" jira-issue "]")
+        ))))
+
+
+(setq custom-file "~/.config/emacs-custom.el")
+(load custom-file)
