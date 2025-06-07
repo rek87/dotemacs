@@ -258,19 +258,25 @@
 (setq ibuffer-show-empty-filter-groups nil)
 (setq ibuffer-jump-offer-only-visible-buffers t)
 
+;; Allow python execution in org-babel
+(org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
+
+;; pdf-tools
+(pdf-tools-install)
+
 (c-add-style "univent"
-  '("stroustrup"
-    (c-basic-offset . 2)
-    (c-backslash-column . 79)
-    (c-backslash-max-column . 79)
-    (c-offsets-alist . ((innamespace . 0)
-                        (access-label . -)
-                        (case-label . +)
-                        (arglist-intro . ++)
-                        (statement-cont . ++)
-                        (inline-open . 0)
-                        (member-init-intro . ++)
-                        ))))
+             '("stroustrup"
+               (c-basic-offset . 2)
+               (c-backslash-column . 79)
+               (c-backslash-max-column . 79)
+               (c-offsets-alist . ((innamespace . 0)
+                                   (access-label . -)
+                                   (case-label . +)
+                                   (arglist-intro . ++)
+                                   (statement-cont . ++)
+                                   (inline-open . 0)
+                                   (member-init-intro . ++)
+                                   ))))
 
 (add-hook 'c++-mode-hook (lambda ()
                            (c-set-style "univent")))
