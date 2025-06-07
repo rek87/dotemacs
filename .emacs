@@ -66,8 +66,38 @@
   (add-hook 'lisp-mode-hook 'highlight-sexp-mode)
   (add-hook 'emacs-lisp-mode-hook 'highlight-sexp-mode))
 
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+(require 'mu4e)
+(setq user-mail-address "federico.recanati@arm.com"
+      user-full-name "Federico Recanati")
+(setq  mu4e-sent-folder "/Sent"
+       mu4e-drafts-folder "/Drafts"
+       mu4e-trash-folder "/Trash"
+       mu4e-refile-folder "/Archive"
+       mu4e-get-mail-command "offlineimap -o"
+       mu4e-update-interval 600
+
+       mu4e-headers-date-format "%a  %d/%m/%y  %H:%M"
+       mu4e-headers-fields '((:date    . 23)
+                             (:flags   . 6)
+                             (:from    . 30)
+                             (:subject . nil))
+       mu4e-headers-visible-lines 14
+
+       mu4e-maildir-shortcuts '((:maildir "/INBOX" :key ?i))
+       )
+;; How to send an email.
+;; Use `C-x m' to write an email, then `C-c C-c' to send it
+(setq mu4e-compose-format-flowed t
+      message-sendmail-envelope-from 'header
+      message-send-mail-function 'smtpmail-send-it
+      message-kill-buffer-on-exit t
+      smtpmail-smtp-server "localhost"
+      smtpmail-smtp-service 1025)
+
 ;; Useful for reformatting paragraphs at 80 cols w/ M-q
 (setq fill-column 80)
+(setq sentence-end-double-space nil)
 
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
