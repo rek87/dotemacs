@@ -17,6 +17,7 @@
                        company
                        elpy
                        undo-tree
+                       pdf-tools
                        ))
 
 (require 'package)
@@ -25,21 +26,23 @@
         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
-(with-demoted-errors
-    (dolist (package package-list)
-      (unless (package-installed-p package)
-        (unless pkg-refreshed
-          (package-refresh-contents)
-          (setq pkg-refreshed t))
-        (package-install package))))
+(defun check-packages (packages)
+  (with-demoted-errors
+      (dolist (package packages)
+        (unless (package-installed-p package)
+          (unless pkg-refreshed
+            (package-refresh-contents)
+            (setq pkg-refreshed t))
+          (package-install package)))))
 
-;(quelpa '(smime
-;         :fetcher git
-;         :url "ssh://fedrec01@eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/midas.git"
-;         :files ("etc/SMIME/smime.el"))
-;    :upgrade t)
-;(require 'smime)
+(check-packages package-list)
 
+;;(quelpa '(smime
+;;         :fetcher git
+;;         :url "ssh://fedrec01@eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/midas.git"
+;;         :files ("etc/SMIME/smime.el"))
+;;    :upgrade t)
+;;(require 'smime)
 
 ;; Disable package signature check!!
 ;; Up to 26.2 is bugged https://debbugs.gnu.org/cgi/bugreport.cgi?bug=33825
@@ -52,6 +55,7 @@
   (add-to-list 'load-path "~/my_emacs/cc-mode/"))
 
 (when (file-directory-p "~/my_emacs/tarmac-mode/")
+  (check-packages `(cl-lib popup))
   (add-to-list 'load-path "~/my_emacs/tarmac-mode/")
   (require 'tarmac-mode))
 
@@ -181,6 +185,7 @@
 (global-undo-tree-mode)
 
 ;; Python config
+;; Make sure to have `venv` package installed
 (setq python-shell-interpreter "python3")
 (elpy-enable)
 (define-key elpy-mode-map (kbd "<M-left>") nil)
