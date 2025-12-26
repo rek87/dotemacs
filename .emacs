@@ -304,6 +304,7 @@
 
 ;; pdf-tools
 (pdf-tools-install)
+(setq doc-view-cache-directory "~/doc-view-cache")
 
 (c-add-style "univent"
              '("stroustrup"
