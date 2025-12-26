@@ -59,6 +59,12 @@
   (add-to-list 'load-path "~/my_emacs/tarmac-mode/")
   (require 'tarmac-mode))
 
+;; Fabien's armasm mode, interested only in doc for now
+;; https://git.research.arm.com/fabric01/armasm-mode/
+(when (file-directory-p "~/my_emacs/armasm-mode/rel")
+  (add-to-list 'load-path "~/my_emacs/armasm-mode/rel")
+  (require 'armdoc))
+
 (when (file-directory-p "~/my_emacs/module-mode/")
   (add-to-list 'load-path "~/my_emacs/module-mode/")
   (require 'module-mode))
